@@ -26,12 +26,5 @@ namespace ElevenNote.web.Controllers
 
             return View();
         }
-
-        public ActionResult Alex()
-        {
-            ViewBag.Message = "Alex is a cool dude";
-
-            return View();
-        }
     }
 }
