@@ -1,4 +1,5 @@
 ﻿using ElevenNote.Models;
+using ElevenNote.web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace ElevenNote.DataAccess
         // Below are the extra tables, aside from what's automatically created by the identity framework.
 
         public DbSet<Note> Notes { get; set; }
+        
 
         #endregion
 
