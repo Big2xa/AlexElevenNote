@@ -240,6 +240,7 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Notes\Index.cshtml" />
+    <Content Include="Views\Notes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -256,6 +257,10 @@
     <ProjectReference Include="..\ElevenNote.Models\ElevenNote.Models.csproj">
       <Project>{c19a63e2-065d-44d4-b7e2-1f56b7c6493d}</Project>
       <Name>ElevenNote.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElevenNote.Services\ElevenNote.Services.csproj">
+      <Project>{0536bab5-b5fd-4505-b45a-affaa8ee036e}</Project>
+      <Name>ElevenNote.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

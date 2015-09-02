@@ -4,52 +4,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using ElevenNote.Services;
 
 namespace ElevenNote.web.Controllers
 {
+    [Authorize]
     public class NotesController : Controller
     {
         // GET: Notes
         public ActionResult Index()
         {
-            var Notes = new List<NoteListViewModel>();
-            Notes.Add(new NoteListViewModel()
+            if (TempData["Result"] != null)
             {
-                Id = 0,
-                DateCreated = DateTime.UtcNow.AddMonths(-3),
-                DateModified = DateTime.UtcNow,
-                IsFavorite = true,
-                Title = "An Excellent Note"
+                ViewBag.Success = TempData["Result"];
+                TempData.Remove("Result");
+            }
 
-            });
-            Notes.Add(new NoteListViewModel()
+            var noteService = new NoteService();
+            var notes = noteService.GetAllForUser(Guid.Parse(User.Identity.GetUserId()));
+            return View(notes);
+        }
+
+        [HttpGet]
+        [ActionName("Create")]
+        public ActionResult CreateGet()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Create")]
+        public ActionResult CreatePost(NoteEditViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                Id = 1,
-                DateCreated = DateTime.UtcNow.AddMonths(-2),
-                DateModified = DateTime.UtcNow,
-                IsFavorite = true,
-                Title = "Even Better Note"
-
-            });
-            Notes.Add(new NoteListViewModel()
-            {
-                Id = 2,
-                DateCreated = DateTime.UtcNow.AddMonths(-1),
-                DateModified = DateTime.UtcNow,
-                IsFavorite = false,
-                Title = "This Note is Kinda Wack"
-
-            });
-            Notes.Add(new NoteListViewModel()
-            {
-                Id = 3,
-                DateCreated = DateTime.UtcNow,
-                DateModified = null,
-                IsFavorite = true,
-                Title = "A Return to Form"
-
-            });
-            return View(Notes);
+                var noteService = new NoteService();
+                var userId = Guid.Parse(User.Identity.GetUserId());
+                var result = noteService.Create(model, userId);
+                TempData.Add("Result", result ? "Note added." : "Note not added.");
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }
