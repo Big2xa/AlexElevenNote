@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using ElevenNote.web.Models;
+using System.Configuration;
 
 namespace ElevenNote.web
 {
@@ -51,10 +52,12 @@ namespace ElevenNote.web
             };
 
             // Configure validation logic for passwords
+            var requiredLength = ConfigurationManager.AppSettings["PasswordConfig.RequiredLength"];
+            var requireNonLetterOrDigit = ConfigurationManager.AppSettings["PasswordConfig.RequireNonLetterOrDigit"];
             manager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+            { 
+                RequiredLength = int.Parse(requiredLength),
+                RequireNonLetterOrDigit = bool.Parse(requireNonLetterOrDigit),
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
